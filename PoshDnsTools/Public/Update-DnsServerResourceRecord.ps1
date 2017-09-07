@@ -1,31 +1,59 @@
 function Update-DnsServerResourceRecord {
+    <#
+    .SYNOPSIS
+    Updates a resource record in a DNS zone.
+
+    .DESCRIPTION
+    The Update-DnsServerResourceRecord cmdlet changes a resource record in a DNS zone, and removes any incorrect records matching the name and ipaddress parameters.
+
+    .PARAMETER ZoneName
+    Specifies the name of the DNS zone.
+
+    .PARAMETER Name
+    Specifies the name of a resource record object.
+
+    .PARAMETER IPAddress
+    Specifies the IPv4 address of a host.
+
+    .PARAMETER ComputerName
+    Specifies a DNS server. If you do not specify this parameter, the command runs on the local system. You can specify an IP address or any value that resolves to an IP address, such as a fully qualified domain name (FQDN), host name, or NETBIOS name.
+
+    .EXAMPLE
+    Update-DnsServerResourceRecord -ZoneName "Contoso.com" -Name "Host01" -IPAddress "10.10.10.10"
+    This command will update / create the A record and PTR record for the host named Host01 with the specified IP address.
+
+    .NOTES
+    General notes
+    #>
     [CmdletBinding(SupportsShouldProcess)]
     Param (
         [Parameter(Mandatory,
+            Position = 1,
             ValueFromPipelineByPropertyName)]
         [string] $ZoneName,
 
         [Parameter(Mandatory,
+            Position = 2,
             ValueFromPipelineByPropertyName)]
         [string] $Name,
 
         [Parameter(Mandatory,
+            Position = 3,
             ValueFromPipelineByPropertyName)]
         [ipaddress] $IPAddress,
 
-        [Parameter(Mandatory,
-            ValueFromPipelineByPropertyName)]
-        [string] $DnsServer
+        [Parameter()]
+        [string] $ComputerName
     )
 
     begin {
         $GetParams = @{
-            'ComputerName' = $DnsServer
+            'ComputerName' = $ComputerName
             'ErrorAction'  = 'SilentlyContinue'
         }
 
         $SetParams = @{
-            'ComputerName' = $DnsServer
+            'ComputerName' = $ComputerName
             'ErrorAction'  = 'Stop'
             'Force'        = $true
         }
@@ -66,7 +94,7 @@ function Update-DnsServerResourceRecord {
 
         if ( !$ForwardExists ) {
             if ( $PSCmdlet.ShouldProcess("Zone: $ZoneName, Name: $Name, Address: $IPAddress", 'Create A record.') ) {
-                Add-DnsServerResourceRecord $DnsServer -ZoneName $ZoneName -A -Name $Name -IPv4Address $IPAddress @SetParams
+                Add-DnsServerResourceRecord $ComputerName -ZoneName $ZoneName -A -Name $Name -IPv4Address $IPAddress @SetParams
             }
         } # if ForwardExists
 

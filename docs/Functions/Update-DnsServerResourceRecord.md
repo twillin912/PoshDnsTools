@@ -1,5 +1,6 @@
 ---
 external help file: PoshDnsTools-help.xml
+Module Name: PoshDnsTools
 online version: 
 schema: 2.0.0
 ---
@@ -7,31 +8,78 @@ schema: 2.0.0
 # Update-DnsServerResourceRecord
 
 ## SYNOPSIS
-{{Fill in the Synopsis}}
+Updates a resource record in a DNS zone.
 
 ## SYNTAX
 
 ```
-Update-DnsServerResourceRecord [-ComputerName <String>] [-ZoneName <String>] [-Name] <String>
- [-IPAddress] <IPAddress> [<CommonParameters>]
+Update-DnsServerResourceRecord [-ZoneName] <String> [-Name] <String> [-IPAddress] <IPAddress>
+ [-ComputerName <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{Fill in the Description}}
+The Update-DnsServerResourceRecord cmdlet changes a resource record in a DNS zone, and removes any incorrect records matching the name and ipaddress parameters.
 
 ## EXAMPLES
 
-### Example 1
+### -------------------------- EXAMPLE 1 --------------------------
 ```
-PS C:\> {{ Add example code here }}
+Update-DnsServerResourceRecord -ZoneName "Contoso.com" -Name "Host01" -IPAddress "10.10.10.10"
 ```
 
-{{ Add example description here }}
+This command will update / create the A record and PTR record for the host named Host01 with the specified IP address.
 
 ## PARAMETERS
 
+### -ZoneName
+Specifies the name of the DNS zone.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: 
+
+Required: True
+Position: 2
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Name
+Specifies the name of a resource record object.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: 
+
+Required: True
+Position: 3
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -IPAddress
+Specifies the IPv4 address of a host.
+
+```yaml
+Type: IPAddress
+Parameter Sets: (All)
+Aliases: 
+
+Required: True
+Position: 4
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
 ### -ComputerName
-{{Fill ComputerName Description}}
+Specifies a DNS server.
+If you do not specify this parameter, the command runs on the local system.
+You can specify an IP address or any value that resolves to an IP address, such as a fully qualified domain name (FQDN), host name, or NETBIOS name.
 
 ```yaml
 Type: String
@@ -45,43 +93,29 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -IPAddress
-{{Fill IPAddress Description}}
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
 
 ```yaml
-Type: IPAddress
+Type: SwitchParameter
 Parameter Sets: (All)
-Aliases: 
+Aliases: wi
 
-Required: True
-Position: 2
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Name
-{{Fill Name Description}}
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
 
 ```yaml
-Type: String
+Type: SwitchParameter
 Parameter Sets: (All)
-Aliases: 
-
-Required: True
-Position: 1
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ZoneName
-{{Fill ZoneName Description}}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases: 
+Aliases: cf
 
 Required: False
 Position: Named
@@ -95,13 +129,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
-
 ## OUTPUTS
 
-### System.Object
-
 ## NOTES
+General notes
 
 ## RELATED LINKS
 
