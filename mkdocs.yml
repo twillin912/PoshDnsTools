@@ -1,0 +1,9 @@
+site_name: PoshDnsTools Documentation
+repo_url: https://github.com/twillin912/PoshDnsTools
+theme: readthedocs
+pages:
+  - Home: index.md
+  - PoshDnsTools Basics:
+    - Quick Start: quickstart.md
+  - Functions:
+
