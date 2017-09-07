@@ -13,7 +13,8 @@ function Update-DnsServerResourceRecord {
             ValueFromPipelineByPropertyName)]
         [ipaddress] $IPAddress,
 
-        [Parameter()]
+        [Parameter(Mandatory,
+            ValueFromPipelineByPropertyName)]
         [string] $DnsServer
     )
 
@@ -26,12 +27,9 @@ function Update-DnsServerResourceRecord {
         $SetParams = @{
             'ComputerName' = $DnsServer
             'ErrorAction'  = 'Stop'
-            'Force' = $true
+            'Force'        = $true
         }
 
-        if ( !$DnsServer ) {
-
-        }
     } # begin
 
     process {
@@ -77,7 +75,7 @@ function Update-DnsServerResourceRecord {
             Write-Debug -Message "PTR zone name: $PtrZoneName"
             $PtrRecord = @()
             for ( $i = 0; $i -lt $PtrRecordBtyes; $i ++ ) {
-                $PtrRecord += $AddressBtyes[3-$i]
+                $PtrRecord += $AddressBtyes[3 - $i]
             }
             $PtrRecordName = $PtrRecord -join '.'
             Write-Debug -Message "PTR record name: $PtrRecordName"
