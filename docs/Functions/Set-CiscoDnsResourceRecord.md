@@ -1,5 +1,6 @@
 ---
 external help file: PoshDnsTools-help.xml
+Module Name: PoshDnsTools
 online version: 
 schema: 2.0.0
 ---
@@ -7,36 +8,64 @@ schema: 2.0.0
 # Set-CiscoDnsResourceRecord
 
 ## SYNOPSIS
-{{Fill in the Synopsis}}
+Updates a resource record for Cisco device in a DNS zone.
 
 ## SYNTAX
 
 ```
-Set-CiscoDnsResourceRecord [-Identity] <String[]> [[-Name] <String>] [[-Server] <String>] [-ZoneName] <String>
- [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-CiscoDnsResourceRecord [-ZoneName] <String> [-ConnectionString] <String> [-Name <String>]
+ [-ComputerName <String>] [-CimSession <CimSession>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{Fill in the Description}}
+The Set-CiscoDnsResourceRecord cmdlet changes resource records in a DNS zone associated with the interfaces for the specified Cisco device.
 
 ## EXAMPLES
 
-### Example 1
+### -------------------------- EXAMPLE 1 --------------------------
 ```
-PS C:\> {{ Add example code here }}
+Example 1
 ```
-
-{{ Add example description here }}
 
 ## PARAMETERS
 
-### -Confirm
-Prompts you for confirmation before running the cmdlet.
+### -ZoneName
+Specifies the name of the DNS zone.
 
 ```yaml
-Type: SwitchParameter
+Type: String
 Parameter Sets: (All)
-Aliases: cf
+Aliases: 
+
+Required: True
+Position: 2
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ConnectionString
+Specifies the connection string to use with the SSH command.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: 
+
+Required: True
+Position: 3
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Name
+Specifies the hostname of the device.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: 
 
 Required: False
 Position: Named
@@ -45,23 +74,10 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Identity
-{{Fill Identity Description}}
-
-```yaml
-Type: String[]
-Parameter Sets: (All)
-Aliases: 
-
-Required: True
-Position: 0
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Name
-{{Fill Name Description}}
+### -ComputerName
+Specifies a DNS server.
+If you do not specify this parameter, the command runs on the local system.
+You can specify an IP address or any value that resolves to an IP address, such as a fully qualified domain name (FQDN), host name, or NETBIOS name.
 
 ```yaml
 Type: String
@@ -69,22 +85,22 @@ Parameter Sets: (All)
 Aliases: 
 
 Required: False
-Position: 1
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Server
-{{Fill Server Description}}
+### -CimSession
+{{Fill CimSession Description}}
 
 ```yaml
-Type: String
+Type: CimSession
 Parameter Sets: (All)
 Aliases: 
 
 Required: False
-Position: 2
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -106,16 +122,16 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ZoneName
-{{Fill ZoneName Description}}
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
 
 ```yaml
-Type: String
+Type: SwitchParameter
 Parameter Sets: (All)
-Aliases: 
+Aliases: cf
 
-Required: True
-Position: 3
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -126,13 +142,12 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
-
 ## OUTPUTS
 
-### System.Object
-
 ## NOTES
+General notes
+
+\[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess")\]
 
 ## RELATED LINKS
 
