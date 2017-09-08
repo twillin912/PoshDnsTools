@@ -14,7 +14,7 @@ Updates a resource record in a DNS zone.
 
 ```
 Update-DnsServerResourceRecord [-ZoneName] <String> [-Name] <String> [-IPAddress] <IPAddress>
- [-ComputerName <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-ComputerName <String>] [-CimSession <CimSession>] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -83,6 +83,21 @@ You can specify an IP address or any value that resolves to an IP address, such 
 
 ```yaml
 Type: String
+Parameter Sets: (All)
+Aliases: 
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CimSession
+{{Fill CimSession Description}}
+
+```yaml
+Type: CimSession
 Parameter Sets: (All)
 Aliases: 
 

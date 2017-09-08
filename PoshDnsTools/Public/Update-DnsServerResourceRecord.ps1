@@ -43,19 +43,27 @@ function Update-DnsServerResourceRecord {
         [ipaddress] $IPAddress,
 
         [Parameter()]
-        [string] $ComputerName
+        [string] $ComputerName,
+
+        [Parameter()]
+        [CimSession] $CimSession
     )
 
     begin {
+        if ( !$CimSession ) {
+            $CimSession = New-CimSession -ComputerName $ComputerName
+        }
+
         $GetParams = @{
-            'ComputerName' = $ComputerName
-            'ErrorAction'  = 'SilentlyContinue'
+            #'ComputerName' = $ComputerName
+            'CimSession'  = $CimSession
+            'ErrorAction' = 'SilentlyContinue'
         }
 
         $SetParams = @{
-            'ComputerName' = $ComputerName
-            'ErrorAction'  = 'Stop'
-            'Force'        = $true
+            #'ComputerName' = $ComputerName
+            'CimSession'  = $CimSession
+            'ErrorAction' = 'Stop'
         }
 
     } # begin
@@ -94,7 +102,7 @@ function Update-DnsServerResourceRecord {
 
         if ( !$ForwardExists ) {
             if ( $PSCmdlet.ShouldProcess("Zone: $ZoneName, Name: $Name, Address: $IPAddress", 'Create A record.') ) {
-                Add-DnsServerResourceRecord $ComputerName -ZoneName $ZoneName -A -Name $Name -IPv4Address $IPAddress @SetParams
+                Add-DnsServerResourceRecord -ZoneName $ZoneName -A -Name $Name -IPv4Address $IPAddress @SetParams
             }
         } # if ForwardExists
 
@@ -111,12 +119,12 @@ function Update-DnsServerResourceRecord {
             if ( $ReverseRecordByIp ) {
                 foreach ( $Record in $ReverseRecordByIp ) {
                     if ( $Record.RecordData.PtrDomainName -ne "$Name.$ZoneName." ) {
-                        if ( $PSCmdlet.ShouldProcess($ReverseRecordByIp.Hostname, 'Remove PTR record.') ) {
-                            Remove-DnsServerResourceRecord -ZoneName $PtrZoneName -InputObject $ReverseRecordByIp  @SetParams
+                        if ( $PSCmdlet.ShouldProcess("Zone: $PtrZoneName, Record: $($Record.HostName), PtrDomainName: $($Record.RecordData.PtrDomainName)", 'Remove PTR record.') ) {
+                            Remove-DnsServerResourceRecord -ZoneName $PtrZoneName -InputObject $Record -Force @SetParams
                         }
                     }
                     else {
-                        Write-Verbose -Message "A 'PTR' record for '$($Record.HostName)' with address '$($Record.RecordData.PtrDomainName)' already exists."
+                        Write-Verbose -Message "A 'PTR' record for '$($Record.HostName)' with IP address '$($Record.RecordData.PtrDomainName)' already exists."
                         $ReverseExists = $true
                     }
                 } # foreach
@@ -126,20 +134,20 @@ function Update-DnsServerResourceRecord {
             if ( $ReverseRecordByName ) {
                 foreach ( $Record in $ForwardRecords ) {
                     if ( $Record.RecordData.PtrDomainName -ne "$Name.$ZoneName." ) {
-                        if ( $PSCmdlet.ShouldProcess($ReverseRecordByName.HostName, 'Remove PTR record.') ) {
-                            Remove-DnsServerResourceRecord -ZoneName $PtrZoneName -InputObject $ReverseRecordByName  @SetParams
+                        if ( $PSCmdlet.ShouldProcess("Zone: $PtrZoneName, Record: $($Record.HostName), PtrDomainName: $($Record.RecordData.PtrDomainName)", 'Remove PTR record.') ) {
+                            Remove-DnsServerResourceRecord -ZoneName $PtrZoneName -InputObject $Record -Force @SetParams
                         }
                     }
                     else {
-                        Write-Verbose -Message "PTR record for '$($Record.HostName)' with address '$($Record.RecordData.PtrDomainName)' already exists."
+                        Write-Verbose -Message "PTR record for '$($Record.HostName)' with record date '$($Record.RecordData.PtrDomainName)' already exists."
                         $ReverseExists = $true
                     }
                 } # foreach
             } # if ReverseRecordByName
 
-            if ( !$ReverseExists -and $($IPAddress.GetAddressBytes()[0]) -in @('10', '172', '192') ) {
-                if ( $PSCmdlet.ShouldProcess("Zone: $PtrZoneName, Name: $PtrRecordName, Address: $Name.$ZoneName.", 'Create PTR record.') ) {
-                    Add-DnsServerResourceRecord -ZoneName $PtrZoneName -Name $PtrRecordName -Ptr -PtrDomainName "$Name.$ZoneName." @SetParams
+            if ( !$ReverseExists ) {
+                if ( $PSCmdlet.ShouldProcess("Zone: $PtrZoneName, Name: $PtrRecordName, PtrDomain: $Name.$ZoneName.", 'Create PTR record.') ) {
+                    Add-DnsServerResourceRecord -ZoneName "$PtrZoneName" -Name "$PtrRecordName" -Ptr -PtrDomainName "$Name.$ZoneName." @SetParams
                 }
             } # if ReverseExists
         } # if DisablePtr
