@@ -90,7 +90,7 @@ function Update-DnsServerResourceRecord {
             foreach ( $Record in $ForwardRecord ) {
                 if ( $Record.RecordData.IPv4Address -ne $IPAddress ) {
                     if ( $PSCmdlet.ShouldProcess("Name: $($Record.HostName), Address: $($Record.RecordData.IPv4Address)", 'Remove A record.') ) {
-                        Remove-DnsServerResourceRecord -ZoneName $ZoneName -InputObject $ForwardRecord @SetParams
+                        Remove-DnsServerResourceRecord -ZoneName $ZoneName -InputObject $Record @SetParams
                     }
                 }
                 else {

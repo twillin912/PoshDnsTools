@@ -60,11 +60,12 @@ function Set-CiscoDnsResourceRecord {
 
         if ( $ConnectionString -contains '@' -and !$Name ) {
             Write-Error -Message "Name must be specified when including username in the connection string."
-
+        } elseif ( !$Name ) {
+            $Name = $ConnectionString.ToLower()
         }
 
         $CimSessionParam = @{}
-        if ( $DnsServer ) {
+        if ( $ComputerName ) {
             $DnsServerCimSession = New-CimSession -ComputerName $ComputerName
             $CimSessionParam.Add('CimSession', $DnsServerCimSession)
         }
@@ -75,7 +76,7 @@ function Set-CiscoDnsResourceRecord {
         $RouterConfig = $RouterConfig -split "`r`n"
         foreach ( $Line in $RouterConfig ) {
             $Line = $Line.ToLower().Split(' ', [StringSplitOptions]'RemoveEmptyEntries')
-            if ( $Line[1] -ne 'unassigned' -and $Line[3] -match 'nvram|manual' ) {
+            if ( $Line[1] -ne 'unassigned' -and $Line[3] -match 'nvram|manual|tftp' ) {
                 $InterfaceName = $($Line[0])
                 [ipaddress]$IPAddress = $($Line[1])
                 foreach ( $Value in $StringReplacement.GetEnumerator() ) {
@@ -85,17 +86,17 @@ function Set-CiscoDnsResourceRecord {
                 [array]::Reverse($InterfaceName)
 
                 if ( $InterfaceName[0] -eq 'lo0' ) {
-                    $InterfaceDns = "$($HostName)"
+                    $InterfaceDns = "$($Name)"
                 }
                 elseif ( ( $InterfaceName[0] -eq 'fa0' -or $InterfaceName[0] -eq 'gi0' -or $InterfaceName[0] -eq 'gi0-0' ) -and !$MgmtInterface ) {
-                    $InterfaceDns = "$($HostName).oob"
+                    $InterfaceDns = "$($Name).oob"
                     $MgmtInterface = $true
                 }
                 elseif ( $InterfaceName[0] -match '^[0-9]+$' ) {
-                    $InterfaceDns = "vl$($InterfaceName -join '.').$($HostName)"
+                    $InterfaceDns = "vl$($InterfaceName -join '.').$($Name)"
                 }
                 else {
-                    $InterfaceDns = "$($InterfaceName -join '.').$($HostName)"
+                    $InterfaceDns = "$($InterfaceName -join '.').$($Name)"
                 }
 
                 Update-DnsServerResourceRecord -ZoneName $ZoneName -Name $InterfaceDns -IPAddress $IPAddress @CimSessionParam -Verbose:$VerbosePreference -WhatIf:$WhatIfPreference

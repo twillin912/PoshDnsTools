@@ -1,7 +1,7 @@
 ---
 external help file: PoshDnsTools-help.xml
 Module Name: PoshDnsTools
-online version: 
+online version:
 schema: 2.0.0
 ---
 
@@ -22,7 +22,7 @@ The Set-CiscoDnsResourceRecord cmdlet changes resource records in a DNS zone ass
 
 ## EXAMPLES
 
-### -------------------------- EXAMPLE 1 --------------------------
+### EXAMPLE 1
 ```
 Example 1
 ```
@@ -35,7 +35,7 @@ Specifies the name of the DNS zone.
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: 
+Aliases:
 
 Required: True
 Position: 2
@@ -50,7 +50,7 @@ Specifies the connection string to use with the SSH command.
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: 
+Aliases:
 
 Required: True
 Position: 3
@@ -65,7 +65,7 @@ Specifies the hostname of the device.
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: 
+Aliases:
 
 Required: False
 Position: Named
@@ -82,7 +82,7 @@ You can specify an IP address or any value that resolves to an IP address, such 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: 
+Aliases:
 
 Required: False
 Position: Named
@@ -97,7 +97,7 @@ Accept wildcard characters: False
 ```yaml
 Type: CimSession
 Parameter Sets: (All)
-Aliases: 
+Aliases:
 
 Required: False
 Position: Named
@@ -150,4 +150,3 @@ General notes
 \[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSShouldProcess")\]
 
 ## RELATED LINKS
-

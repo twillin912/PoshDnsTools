@@ -1,7 +1,7 @@
 ---
 external help file: PoshDnsTools-help.xml
 Module Name: PoshDnsTools
-online version: 
+online version:
 schema: 2.0.0
 ---
 
@@ -22,7 +22,7 @@ The Update-DnsServerResourceRecord cmdlet changes a resource record in a DNS zon
 
 ## EXAMPLES
 
-### -------------------------- EXAMPLE 1 --------------------------
+### EXAMPLE 1
 ```
 Update-DnsServerResourceRecord -ZoneName "Contoso.com" -Name "Host01" -IPAddress "10.10.10.10"
 ```
@@ -37,7 +37,7 @@ Specifies the name of the DNS zone.
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: 
+Aliases:
 
 Required: True
 Position: 2
@@ -52,7 +52,7 @@ Specifies the name of a resource record object.
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: 
+Aliases:
 
 Required: True
 Position: 3
@@ -67,7 +67,7 @@ Specifies the IPv4 address of a host.
 ```yaml
 Type: IPAddress
 Parameter Sets: (All)
-Aliases: 
+Aliases:
 
 Required: True
 Position: 4
@@ -84,7 +84,7 @@ You can specify an IP address or any value that resolves to an IP address, such 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: 
+Aliases:
 
 Required: False
 Position: Named
@@ -99,7 +99,7 @@ Accept wildcard characters: False
 ```yaml
 Type: CimSession
 Parameter Sets: (All)
-Aliases: 
+Aliases:
 
 Required: False
 Position: Named
@@ -150,4 +150,3 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 General notes
 
 ## RELATED LINKS
-

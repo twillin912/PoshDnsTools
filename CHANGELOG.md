@@ -1,7 +1,7 @@
 # PoshDnsTools Release History
 
-## 0.1.0 (0000-00-00)
+## 0.1.0 (2017-09-08)
 
--
-
-
+- Initial Release
+- New Functions
+  - Update-DnsServerResourceRecord
